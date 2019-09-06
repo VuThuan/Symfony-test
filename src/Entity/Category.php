@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
@@ -11,6 +12,46 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category
 {
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=100)
+     */
+    private $name;
+
+    /**
+     * @var Job[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Job", mappedBy="category")
+     */
+    private $jobs;
+
+    /**
+     * @var Affiliate[]|ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Affiliate", mappedBy="categories")
+     */
+    private $affiliates;
+
+    /**
+     * @var string
+     *
+     * @Gedmo\Slug(fields={"name"})
+     *
+     * @ORM\Column(type="string", length=128, unique=true)
+     */
+    private $slug;
+
 
     //properties
     public function __construct()
@@ -127,32 +168,18 @@ class Category
     }
 
     /**
-     * @var int
-     *
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @return string|null
      */
-    private $id;
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=100)
+     * @param string $slug
      */
-    private $name;
-
-    /**
-     * @var Job[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="Job", mappedBy="category")
-     */
-    private $jobs;
-
-    /**
-     * @var Affiliate[]|ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="Affiliate", mappedBy="categories")
-     */
-    private $affiliates;
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
 }

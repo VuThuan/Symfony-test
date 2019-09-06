@@ -17,6 +17,8 @@ class JobController extends AbstractController
      * 
      * @Route("/", name="job.list", methods="GET")
      * 
+     * @param EntityManagerInterface $em
+     * 
      * @return Response
      */
     // public function list(EntityManagerInterface $em): Response
