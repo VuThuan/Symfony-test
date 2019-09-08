@@ -61,6 +61,7 @@ class Category
     }
 
     //getters and setters
+
     /**
      * @return int
      */
@@ -163,7 +164,7 @@ class Category
     public function getActiveJobs()
     {
         return $this->jobs->filter(function (Job $job) {
-            return $job->getExpiresAt() > new \DateTime();
+            return $job->getExpiresAt() > new \DateTime() && $job->isActivated();
         });
     }
 
