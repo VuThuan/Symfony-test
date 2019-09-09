@@ -42,10 +42,11 @@ class JobType extends AbstractType
                 ]
             ])
             ->add('logo', TextType::class)
-            ->add('url', UrlType::class, [
+            ->add('url', null, [
                 'constraints' => [
                     new Length(['max' => 255]),
-                ]
+                ],
+                'empty_data' => null
             ])
             ->add('position', TextType::class, [
                 'constraints' => [
@@ -105,7 +106,7 @@ class JobType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Image(),
-                ]
+                ],
             ]);
     }
 
