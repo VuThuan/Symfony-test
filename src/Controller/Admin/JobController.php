@@ -4,9 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Job;
 use App\Form\JobType;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,13 +58,21 @@ class JobController extends AbstractController
      * 
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function create(Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
         $job = new Job();
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile|null $logoFile */
+            $logoFile = $form->get('logo')->getData();
+
+            if ($logoFile instanceof UploadedFile) {
+                $fileName = $fileUploader->upload($logoFile);
+
+                $job->setLogo($fileName);
+            }
             $em->persist($job);
             $em->flush();
         }
@@ -82,12 +92,20 @@ class JobController extends AbstractController
      *
      * @return Response
      */
-    public function edit(Request $request, EntityManagerInterface $em, Job $job): Response
+    public function edit(Request $request, EntityManagerInterface $em, Job $job, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile|null $logoFile */
+            $logoFile = $form->get('logo')->getData();
+
+            if ($logoFile instanceof UploadedFile) {
+                $fileName = $fileUploader->upload($logoFile);
+
+                $job->setLogo($fileName);
+            }
             $em->flush();
 
             return $this->redirectToRoute('admin.job.list');
