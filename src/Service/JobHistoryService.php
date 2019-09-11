@@ -59,7 +59,6 @@ class JobHistoryService
         foreach ($this->getJobIds() as $jobId) {
             $jobs[] = $jobRepository->findActiveJob($jobId);
         }
-
         return $jobs;
     }
 
