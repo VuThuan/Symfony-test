@@ -38,3 +38,10 @@ services:
         ports:
             - 1025:1025
             - 8025:8025
+    
+    node: 
+        image: node:9.11.1
+        container_name: jobeet-node
+        working_dir: /application
+        volumes: 
+        - .:/application
