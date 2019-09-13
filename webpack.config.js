@@ -68,7 +68,7 @@ Encore
     .autoProvideVariables({
         $: 'jquery',
         jQuery: 'jquery',
-        'window.jquery': 'jquery'
+        'window.jQuery': 'jquery'
     })
 
     // uncomment if you use API Platform Admin (composer req api-admin)

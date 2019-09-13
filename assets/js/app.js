@@ -13,14 +13,14 @@ require('../css/app.css');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
-//require jquery normally
+// require jQuery normally
 var $ = require('jquery');
 
-//create global & and Jquery variables
+// create global $ and jQuery variables
 global.$ = global.jQuery = $;
 
 require('bootstrap');
 
 $(document).ready(function () {
-    $(".dropdown-toggle").dropdown()
+    $(".dropdown-toggle").dropdown();
 });
