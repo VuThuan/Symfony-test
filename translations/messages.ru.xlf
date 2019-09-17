@@ -1,34 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-    <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
-        <header>
-            <tool tool-id="symfony" tool-name="Symfony" />
-        </header>
-        <body>
-            <trans-unit id="xqYQ02A" resname="Jobeet">
-                <source>Jobeet</source>
-                <target>Jobeet</target>
-            </trans-unit>
-            <trans-unit id="jC3twAE" resname="Admin Panel">
-                <source>Admin Panel</source>
-                <target>Admin панель</target>
-            </trans-unit>
-            <trans-unit id="Y7SLIj4" resname="Affiliates">
-                <source>Affiliates</source>
-                <target>Партнёры</target>
-            </trans-unit>
-            <trans-unit id="e3cp8V6" resname="Post a Job">
-                <source>Post a Job</source>
-                <target>Опубликовать вакансию</target>
-            </trans-unit>
-            <trans-unit id="0FJ_Sz1" resname="Logout">
-                <source>Logout</source>
-                <target>Выйти</target>
-            </trans-unit>
-            <trans-unit id="SwvMlQO" resname="Jobeet - Your best job board">
-                <source>Jobeet - Your best job board</source>
-                <target>Jobeet - лучшая платформа для поиска работы</target>
-            </trans-unit>
-        </body>
-    </file>
+  <file source-language="en" target-language="ru" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony" />
+    </header>
+    <body>
+      <trans-unit id="xqYQ02A" resname="Jobeet">
+        <source>Jobeet</source>
+        <target>Jobeet</target>
+      </trans-unit>
+      <trans-unit id="jC3twAE" resname="Admin Panel">
+        <source>Admin Panel</source>
+        <target>Admin панель</target>
+      </trans-unit>
+      <trans-unit id="Y7SLIj4" resname="Affiliates">
+        <source>Affiliates</source>
+        <target>Партнёры</target>
+      </trans-unit>
+      <trans-unit id="e3cp8V6" resname="Post a Job">
+        <source>Post a Job</source>
+        <target>Опубликовать вакансию</target>
+      </trans-unit>
+      <trans-unit id="0FJ_Sz1" resname="Logout">
+        <source>Logout</source>
+        <target>Выйти</target>
+      </trans-unit>
+      <trans-unit id="SwvMlQO" resname="Jobeet - Your best job board">
+        <source>Jobeet - Your best job board</source>
+        <target>Jobeet - лучшая платформа для поиска работы</target>
+      </trans-unit>
+      <trans-unit id="hDTa85S" resname="]-Inf,0] Expired|{1}Expires in 1 day|]1,Inf[ Expires in %days% days">
+        <source>]-Inf,0] Expired|{1}Expires in 1 day|]1,Inf[ Expires in %days% days</source>
+        <target>]-Inf,0] Истекло|{1}Истекает через 1 день|]1,Inf[ Истекает через %days% дней</target>
+      </trans-unit>
+      <trans-unit id="PhB5DGQ" resname="[Bookmark this &lt;a href=&quot;%url%&quot;&gt;URL&lt;/a&gt; to manage this job in the future]">
+        <source>[Bookmark this &lt;a href="%url%"&gt;URL&lt;/a&gt; to manage this job in the future]</source>
+        <target>
+          <![CDATA[[Сохраните этот <a href="%url%">URL</a> в закладках, чтобы в дальнейшем редактировать данную вакансию]]]>
+        </target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

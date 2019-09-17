@@ -1,34 +1,50 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-    <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
-        <header>
-            <tool tool-id="symfony" tool-name="Symfony" />
-        </header>
-        <body>
-            <trans-unit id="xqYQ02A" resname="Jobeet">
-                <source>Jobeet</source>
-                <target>Jobeet</target>
-            </trans-unit>
-            <trans-unit id="jC3twAE" resname="Admin Panel">
-                <source>Admin Panel</source>
-                <target>Admin Panel</target>
-            </trans-unit>
-            <trans-unit id="Y7SLIj4" resname="Affiliates">
-                <source>Affiliates</source>
-                <target>Affiliates</target>
-            </trans-unit>
-            <trans-unit id="e3cp8V6" resname="Post a Job">
-                <source>Post a Job</source>
-                <target>Post a Job</target>
-            </trans-unit>
-            <trans-unit id="0FJ_Sz1" resname="Logout">
-                <source>Logout</source>
-                <target>Logout</target>
-            </trans-unit>
-            <trans-unit id="SwvMlQO" resname="Jobeet - Your best job board">
-                <source>Jobeet - Your best job board</source>
-                <target>Jobeet - Your best job board</target>
-            </trans-unit>
-        </body>
-    </file>
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="xqYQ02A" resname="Jobeet">
+        <source>Jobeet</source>
+        <target>Jobeet</target>
+      </trans-unit>
+      <trans-unit id="jC3twAE" resname="Admin Panel">
+        <source>Admin Panel</source>
+        <target>Admin Panel</target>
+      </trans-unit>
+      <trans-unit id="Y7SLIj4" resname="Affiliates">
+        <source>Affiliates</source>
+        <target>Affiliates</target>
+      </trans-unit>
+      <trans-unit id="e3cp8V6" resname="Post a Job">
+        <source>Post a Job</source>
+        <target>Post a Job</target>
+      </trans-unit>
+      <trans-unit id="0FJ_Sz1" resname="Logout">
+        <source>Logout</source>
+        <target>Logout</target>
+      </trans-unit>
+      <trans-unit id="SwvMlQO" resname="Jobeet - Your best job board">
+        <source>Jobeet - Your best job board</source>
+        <target>Jobeet - Your best job board</target>
+      </trans-unit>
+      <trans-unit id="QkolUdN" resname="Expired">
+        <source>Expired</source>
+        <target>Expired</target>
+      </trans-unit>
+      <trans-unit id="PV5l7l_" resname="Expires in %days% days">
+        <source>Expires in %days% days</source>
+        <target>Expires in %days% days</target>
+      </trans-unit>
+      <trans-unit id="hDTa85S" resname="]-Inf,0] Expired|{1}Expires in 1 day|]1,Inf[ Expires in %days% days">
+        <source>]-Inf,0] Expired|{1}Expires in 1 day|]1,Inf[ Expires in %days% days</source>
+        <target>]-Inf,0] Expired|{1}Expires in 1 day|]1,Inf[ Expires in %days% days</target>
+      </trans-unit>
+      <trans-unit id="PhB5DGQ" resname="[Bookmark this &lt;a href=&quot;%url%&quot;&gt;URL&lt;/a&gt; to manage this job in the future]">
+        <source>[Bookmark this &lt;a href="%url%"&gt;URL&lt;/a&gt; to manage this job in the future]</source>
+        <target><![CDATA[[Bookmark this <a href="%url%">URL</a> to manage this job in the future]]]></target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>
