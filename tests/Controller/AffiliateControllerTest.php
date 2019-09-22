@@ -6,23 +6,39 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AffiliateControllerTest extends WebTestCase
 {
-    public function testCompleteScenario()
+    public function getProgrammingCategory()
     {
-        // Create a new client to browse the application
+        $kernel = static::createKernel();
+        $kernel->boot();
+        $em = $kernel->getContainer()->get('doctrine.orm.entity_manager');
+
+        $query = $em->createQuery('SELECT c FROM App:Category c WHERE c.slug = :slug');
+        $query->setParameter('slug', 'programming');
+        $query->setMaxResults(1);
+
+        return $query->getSingleResult();
+    }
+
+    public function testAffiliateForm()
+    {
         $client = static::createClient();
 
-        // Create a new entry in the database
-        $crawler = $client->request('GET', '/');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode(), "Unexpected HTTP status code for GET /");
-
-        $crawler = $client->click($crawler->selectLink('Affiliates')->link());
+        //An affiliate can create account 
+        $crawler = $client->request('GET', '/affiliate/create');
+        $this->assertEquals('App\Controller\AffiliateController::create', $client->getRequest()->attributes->get('_controller'));
 
         $form = $crawler->selectButton('Create')->form(array(
-            'affiliate[url]' => 'https://sun-asterisk.vn',
+            'affiliate[url]' => 'https://www.sun-asterisk.com',
             'affiliate[email]' => 'vuthuan3090@gmail.com',
+            'affiliate[categories][1]' => $this->getProgrammingCategory()->getId()
         ));
 
-        $client->submit($form);
+        $crawler = $client->submit($form);
+        $this->assertEquals('App\Controller\AffiliateController::create', $client->getRequest()->attributes->get('_controller'));
         $crawler = $client->followRedirect();
+        $this->assertEquals('App\Controller\AffiliateController::wait', $client->getRequest()->attributes->get('_controller'));
+
+        $this->assertTrue($crawler->filter('h3.text-center')->count() == 1);
+        $this->assertTrue($crawler->filter('h3.text-center b')->text() == 'Your affiliate account has been created');
     }
 }
