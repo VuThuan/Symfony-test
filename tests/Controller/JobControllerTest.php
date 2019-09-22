@@ -153,7 +153,7 @@ class JobControllerTest extends WebTestCase
     public function testPublishJob()
     {
         $client = $this->createJob(array('job[position]' => 'FOO1'));
-        $crawler = $client->request('GET', '/job/32');
+        $crawler = $client->request('GET', '/job/33');
         $form = $crawler->selectButton('Publish')->form();
 
         $client->submit($form);
