@@ -19,7 +19,7 @@ class JobControllerTest extends WebTestCase
         $this->assertTrue(404 === $client->getResponse()->getStatusCode());
 
         // The web service supports the JSON format ?????????
-        // $crawler = $client->request('GET', '/api/v1/sensio_labs/jobs');
-        // $this->assertTrue(200 === $client->getResponse()->getStatusCode());
+        $crawler = $client->request('GET', '/api/v1/sensio_labs/jobs');
+        $this->assertTrue(200 === $client->getResponse()->getStatusCode());
     }
 }

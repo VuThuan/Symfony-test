@@ -11,8 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class JobController extends FOSRestController
 {
+    //, requirements={"token" = "\w\d+"}    
     /**
-     * @Rest\Get("/{token}/jobs", name="api.job.list", requirements={"token" = "\w\d+"})
+     * @Rest\Get("/{token}/jobs", name="api.job.list")
      *
      * @param Affiliate $affiliate
      * @param EntityManagerInterface $em
