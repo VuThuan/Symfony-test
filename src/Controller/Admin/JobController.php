@@ -8,6 +8,7 @@ use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,20 +29,29 @@ class JobController extends AbstractController
      * @param EntityManagerInterface $em
      * @param PaginatorInterface $paginator
      * @param int $page
+     * @param AdapterInterface $cache
      *
      * @return Response
      */
-    public function list(EntityManagerInterface $em, PaginatorInterface $paginator, int $page): Response
+    public function list(EntityManagerInterface $em, PaginatorInterface $paginator, int $page, AdapterInterface $cache): Response
     {
-        $jobs = $paginator->paginate(
-            $em->getRepository(Job::class)->createQueryBuilder('j'),
-            $page,
-            $this->getParameter('max_per_page'),
-            [
-                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'j.createdAt',
-                PaginatorInterface::DEFAULT_SORT_DIRECTION => 'DESC',
-            ]
-        );
+
+        $item = $cache->getItem('listJobs');
+
+        if (!$item->isHit()) {
+            $item->set($paginator->paginate(
+                $em->getRepository(Job::class)->createQueryBuilder('j'),
+                $page,
+                $this->getParameter('max_per_page'),
+                [
+                    PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'j.createdAt',
+                    PaginatorInterface::DEFAULT_SORT_DIRECTION => 'DESC',
+                ]
+            ));
+            $cache->save($item);
+        }
+
+        $jobs = $item->get();
 
         return $this->render('admin/job/list.html.twig', [
             'jobs' => $jobs,

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Affiliate;
 use App\Service\MailerService;
-
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class AffiliateController extends AbstractController
 {
@@ -21,20 +21,27 @@ class AffiliateController extends AbstractController
      * @param EntityManagerInterface $em
      * @param PaginatorInterface $paginator
      * @param int $page
+     * @param AdapterInterface $cache
      * 
      * @return Response
      */
-    public function list(EntityManagerInterface $em, PaginatorInterface $paginator, int $page): Response
+    public function list(EntityManagerInterface $em, PaginatorInterface $paginator, int $page, AdapterInterface $cache): Response
     {
-        $affiliates = $paginator->paginate(
-            $em->getRepository(Affiliate::class)->createQueryBuilder('a'),
-            $page,
-            $this->getParameter('max_per_page'),
-            [
-                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'a.active',
-                PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
-            ]
-        );
+        $item = $cache->getItem('Admin_affiliate');
+
+        if (!$item->isHit()) {
+            $item->set($paginator->paginate(
+                $em->getRepository(Affiliate::class)->createQueryBuilder('a'),
+                $page,
+                $this->getParameter('max_per_page'),
+                [
+                    PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'a.active',
+                    PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
+                ]
+            ));
+            $cache->save($item);
+        }
+        $affiliates = $item->get();
 
         return $this->render('admin/affiliate/list.html.twig', [
             'affiliates' => $affiliates,

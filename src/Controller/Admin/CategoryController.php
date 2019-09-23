@@ -7,6 +7,7 @@ use App\Entity\Category;
 use App\Form\Admin\CategoryType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,12 +19,20 @@ class CategoryController extends AbstractController
      * @Route("/admin/categories", name="admin.category.list", methods="GET")
      * 
      * @param EntityManagerInterface $em
+     * @param AdapterInterface $cache
      * 
      * @return Response
      */
-    public function list(EntityManagerInterface $em): Response
+    public function list(EntityManagerInterface $em, AdapterInterface $cache): Response
     {
-        $categories = $em->getRepository(Category::class)->findAll();
+
+        $item = $cache->getItem('Admin_categories');
+
+        if (!$item->isHit()) {
+            $item->set($em->getRepository(Category::class)->findAll());
+            $cache->save($item);
+        }
+        $categories = $item->get();
 
         return $this->render('admin/category/list.html.twig', [
             'categories' => $categories

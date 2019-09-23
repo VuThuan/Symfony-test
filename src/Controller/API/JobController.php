@@ -13,7 +13,7 @@ class JobController extends FOSRestController
 {
     //, requirements={"token" = "\w\d+"}    
     /**
-     * @Rest\Get("/{token}/jobs", name="api.job.list")
+     * @Rest\Get("/{token}/jobs", name="api.job.list", requirements={"token" = "\w\d+"} )
      *
      * @param Affiliate $affiliate
      * @param EntityManagerInterface $em

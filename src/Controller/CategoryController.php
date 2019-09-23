@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\JobHistoryService;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class CategoryController extends Controller
 {
@@ -27,6 +28,7 @@ class CategoryController extends Controller
      * @param PaginatorInterface $paginator
      * @param int $page
      * @param JobHistoryService $jobHistoryService
+     * @param AdapterInterface $cache
      *
      * @return Response
      */
@@ -34,13 +36,22 @@ class CategoryController extends Controller
         Category $category,
         PaginatorInterface $paginator,
         int $page,
-        JobHistoryService $jobHistoryService
+        JobHistoryService $jobHistoryService,
+        AdapterInterface $cache
     ): Response {
-        $activeJobs = $paginator->paginate(
-            $this->getDoctrine()->getRepository(Job::class)->getPaginatedActiveJobsByCategoryQuery($category),
-            $page,
-            $this->getParameter('max_jobs_on_category')
-        );
+
+        $item = $cache->getItem('activeJob');
+
+        if (!$item->isHit()) {
+            $item->set($paginator->paginate(
+                $this->getDoctrine()->getRepository(Job::class)->getPaginatedActiveJobsByCategoryQuery($category),
+                $page,
+                $this->getParameter('max_jobs_on_category')
+            ));
+            $cache->save($item);
+        }
+
+        $activeJobs = $item->get('activeJob');
 
         return $this->render('category/show.html.twig', [
             'category' => $category,
