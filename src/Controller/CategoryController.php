@@ -8,7 +8,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use App\Service\JobHistoryService;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class CategoryController extends Controller
@@ -27,7 +27,6 @@ class CategoryController extends Controller
      * @param Category $category
      * @param PaginatorInterface $paginator
      * @param int $page
-     * @param JobHistoryService $jobHistoryService
      * @param AdapterInterface $cache
      *
      * @return Response
@@ -36,27 +35,44 @@ class CategoryController extends Controller
         Category $category,
         PaginatorInterface $paginator,
         int $page,
-        JobHistoryService $jobHistoryService,
-        AdapterInterface $cache
+        Request $request,
+        CacheTestController $cache
     ): Response {
-
-        $item = $cache->getItem('activeJob');
-
-        if (!$item->isHit()) {
-            $item->set($paginator->paginate(
-                $this->getDoctrine()->getRepository(Job::class)->getPaginatedActiveJobsByCategoryQuery($category),
-                $page,
-                $this->getParameter('max_jobs_on_category')
-            ));
-            $cache->save($item);
-        }
-
-        $activeJobs = $item->get('activeJob');
+        $activeJobs = $paginator->paginate(
+            $this->getDoctrine()->getRepository(Job::class)->getPaginatedActiveJobsByCategoryQuery($category),
+            $page,
+            $this->getParameter('max_jobs_on_category')
+        );
 
         return $this->render('category/show.html.twig', [
             'category' => $category,
             'activeJobs' => $activeJobs,
-            'historyJobs' => $jobHistoryService->getJobs(),
-        ]);
+        ], $cache->index($request));
     }
+
+    // /**
+    //  * Show all jobs active
+    //  * 
+    //  * @param PaginatorInterface $paginator
+    //  * @param int $page
+    //  * 
+    //  * @return Response
+    //  */
+    // public function activeJobs(Category $category, PaginatorInterface $paginator, int $page): Response
+    // {
+    //     $activeJobs = $paginator->paginate(
+    //         $this->getDoctrine()->getRepository(Job::class)->getPaginatedActiveJobsByCategoryQuery($category),
+    //         $page,
+    //         $this->getParameter('max_jobs_on_category')
+    //     );
+
+    //     $response = $this->render('job/table.html.twig', [
+    //         'category' => $category,
+    //         'jobs' => $activeJobs
+    //     ]);
+
+    //     $response->setSharedMaxAge(10);
+
+    //     return $response;
+    // }
 }

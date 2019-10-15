@@ -7,10 +7,13 @@
 {% endblock %}
 
 {% block body %}
-    {% include 'job/_job_history.html.twig' with {'historyJobs': historyJobs} only %}
+    {{ render_esi(controller('App\\Controller\\CacheTestController::historyAction')) }}
+
     <h4>{{ category.name }}</h4>
 
     {% include 'job/table.html.twig' with {'jobs': activeJobs} only %}
+
+    {# {{ render_esi(controller('App\\Controller\\CategoryController::activeJobs')) }} #}
 
     <div class="navigation text-center">
         {{ knp_pagination_render(activeJobs) }}

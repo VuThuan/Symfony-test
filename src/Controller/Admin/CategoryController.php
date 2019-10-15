@@ -25,14 +25,7 @@ class CategoryController extends AbstractController
      */
     public function list(EntityManagerInterface $em, AdapterInterface $cache): Response
     {
-
-        $item = $cache->getItem('Admin_categories');
-
-        if (!$item->isHit()) {
-            $item->set($em->getRepository(Category::class)->findAll());
-            $cache->save($item);
-        }
-        $categories = $item->get();
+        $categories = $em->getRepository(Category::class)->findAll();
 
         return $this->render('admin/category/list.html.twig', [
             'categories' => $categories

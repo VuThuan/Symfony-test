@@ -16,8 +16,10 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
+
 class JobController extends Controller
 {
+
     /**
      * List all job entities
      * 
@@ -28,14 +30,17 @@ class JobController extends Controller
      * 
      * @return Response
      */
-    public function list(EntityManagerInterface $em, JobHistoryService $jobHistoryService): Response
+    public function list(EntityManagerInterface $em, Request $request, CacheTestController $cache): Response
     {
         $categories = $em->getRepository(Category::class)->findWithActiveJobs();
 
-        return $this->render('job/list.html.twig', [
-            'categories' => $categories,
-            'historyJobs' => $jobHistoryService->getJobs(),
-        ]);
+        return $this->render(
+            'job/list.html.twig',
+            [
+                'categories' => $categories,
+            ],
+            $cache->index($request)
+        );
     }
 
     /**
@@ -50,7 +55,7 @@ class JobController extends Controller
      *
      * @return Response
      */
-    public function show(Job $job, JobHistoryService $jobHistoryService): Response
+    public function show(Job $job, JobHistoryService $jobHistoryService, Request $request, CacheTestController $cache): Response
     {
         $deleteForm = $this->createDeleteForm($job);
         $publishForm = $this->createPublishForm($job);
@@ -62,7 +67,7 @@ class JobController extends Controller
             'hasControlAccess' => true,
             'deleteForm' => $deleteForm->createView(),
             'publishForm' => $publishForm->createView(),
-        ]);
+        ], $cache->index($request));
     }
 
     /**

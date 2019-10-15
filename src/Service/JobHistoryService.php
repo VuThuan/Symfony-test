@@ -68,7 +68,7 @@ class JobHistoryService
     private function getJobIds(): array
     {
         //Do 1 vài lý do nên sẽ bỏ clear session =))
-        $this->session->clear();
+        // $this->session->clear();
 
         return $this->session->get('job_history', []);
     }

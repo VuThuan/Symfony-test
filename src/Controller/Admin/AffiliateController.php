@@ -27,21 +27,15 @@ class AffiliateController extends AbstractController
      */
     public function list(EntityManagerInterface $em, PaginatorInterface $paginator, int $page, AdapterInterface $cache): Response
     {
-        $item = $cache->getItem('Admin_affiliate');
-
-        if (!$item->isHit()) {
-            $item->set($paginator->paginate(
-                $em->getRepository(Affiliate::class)->createQueryBuilder('a'),
-                $page,
-                $this->getParameter('max_per_page'),
-                [
-                    PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'a.active',
-                    PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
-                ]
-            ));
-            $cache->save($item);
-        }
-        $affiliates = $item->get();
+        $affiliates = $paginator->paginate(
+            $em->getRepository(Affiliate::class)->createQueryBuilder('a'),
+            $page,
+            $this->getParameter('max_per_page'),
+            [
+                PaginatorInterface::DEFAULT_SORT_FIELD_NAME => 'a.active',
+                PaginatorInterface::DEFAULT_SORT_DIRECTION => 'ASC',
+            ]
+        );
 
         return $this->render('admin/affiliate/list.html.twig', [
             'affiliates' => $affiliates,
